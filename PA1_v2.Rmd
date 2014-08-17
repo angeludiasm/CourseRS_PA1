@@ -15,6 +15,12 @@ setwd (PathCode)
 mydf <- read.table("./activity.csv",header=TRUE, sep = ',')
 str(mydf)
 head(mydf)
+
+data <- read.csv("activity.csv", colClasses=c("integer", "Date", "factor"))
+str(mydf)
+#only the clean data
+dataWithoutNA <- na.omit(data)
+str(dataWithoutNA)
 ```
 
 ## The dataset
@@ -25,28 +31,21 @@ The variables included in this dataset are:
 The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17568 observations in this dataset.
 
 
-## Loading and preprocessing the data
-```{r, results="hide"}
-#if(!file.exists("activity.zip")){
-#download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip", destfile#="activity.zip")
-#}
-#unzip("activity.zip")
-data <- read.csv("activity.csv", colClasses=c("integer", "Date", "factor"))
-dataWithoutNA <- na.omit(data)
-```
 ## What is mean total number of steps taken per day?
 For this part, ignore the missing values in the dataset.
 * Make a histogram of the total number of steps taken each day
-```{r}
+```{r histograma}
 ggplot(dataWithoutNA, aes(x = date, y = steps)) + geom_histogram(stat = "identity") +
 labs(title="Histogram of the total number of steps taken each day",
 x="Date", y="Total number of steps")
 ```
-* Calculate and report the **mean** and **median** total number of steps taken per day
-```{r}
+* Calculate and report the **mean**  total number of steps taken per day
+```{r medias}
 totalStepsPerDay <- aggregate(dataWithoutNA$steps, list(Date = dataWithoutNA$date), sum)$x
 mean(totalStepsPerDay)
 ```
+* Calculate and report the **median**  total number of steps taken per day
+
 ```{r}
 median(totalStepsPerDay)
 ```
